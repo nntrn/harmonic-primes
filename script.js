@@ -13,7 +13,7 @@ const fn = {
 	},
 
 	getDist: (arr, fn, sep = ',', precision = 13) => [
-		`k${sep}count${sep}distribution %`,
+		`k${sep}count${sep}percent %`,
 		Object.entries(arr
 			.map(typeof fn === 'function' ? fn : (val) => val[fn])
 			.reduce((acc, val) => {
@@ -27,8 +27,8 @@ const fn = {
 	],
 
 	printDist: (gb, narr, sep = ', ') => [
-		gb[0],
-		'-'.repeat(30),
+		`<strong>${gb[0]}</strong>`,
+		// '-'.repeat(30),
 		gb[1],
 		'-'.repeat(30),
 		`total count: ${narr.length}`,
@@ -113,7 +113,8 @@ function computeHarmonicPrime(n, k = 3) {
 
 function getDistTable(db, sep = '\t') {
 	const dist = getDist(
-		db.sort((a, b) => a.k > b.k),
+		// db.sort((a, b) => a.k > b.k),
+		db,
 		(e) => e.k,
 		sep
 	)
@@ -142,7 +143,7 @@ const kgroup = (arr) =>
 			return a
 		}, {})
 	).map((e) => [
-		`k = ${e[0]} `,
+		`<div>k = ${e[0]}</div>`,
 		e[1].map((c) => `<span data-n="${(c + 2) / e[0]}">${c}</span>`).join(' '),
 	].join('\n')).join('\n\n')
 
@@ -160,7 +161,7 @@ function genPrimes() {
 		.slice(0, 4)
 
 	// console.log(db.sort((a, b) => a.n > b.n))
-	document.querySelector('#gb').textContent = disttbl.join('\n')
+	document.querySelector('#gb').innerHTML = disttbl.join('\n')
 	document.querySelector('#primecode').innerHTML = kgroup(db)
 }
 
